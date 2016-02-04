@@ -1,13 +1,15 @@
-var TestComponent = React.createClass({
+var Button = React.createClass({
 	render: function() {
 		return (
-			<div>Hello World!</div>
+			<div>
+				<button>Create Card</button>
+			</div>
 		);
 	}
 });
 
 
 ReactDOM.render(
-	<TestComponent url="/" />, 
+	<Button url="/" />, 
 	document.getElementById('main')
 );
