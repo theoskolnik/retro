@@ -1,9 +1,25 @@
 
 var Card = React.createClass({
-	render: function() {
+	renderCards() {
+		console.log(this.props.data);
+		if(this.props.data !== 0) {
+			var cards = this.props.data;
+			
+			return (
+      <ol>
+        {cards.map((card, index) => {
+        	console.log("loop" +card);
+          return <li className="card" key={index}>{card.anything}</li>;
+        })}
+      </ol>
+    	);
+		}
+	},
+
+	render () {
 		return(
 			<div>
-				This is a card.
+				{this.renderCards()}
 			</div>
 		);
 	}
@@ -27,28 +43,16 @@ var App = React.createClass({
     };
 	},
 
-	renderCards() {
-		if(this.state.cards) {
-			return this.state.cards.map((card) => {
-				return (
-					<ul>
-						<li>
-							This is the card: {card}
-						</li>
-					</ul>)
-			});
-		}
-	},
-
 	createCard () {
 		var newArray = this.state.cards.slice();    
-    newArray.push(new Card());   
+    newArray.push(<Card/>);   
     this.setState({cards:newArray})
 	},
 
-	render: function() {
+	render () {
 		return (
 			<div>
+				<Card data={this.state.cards}/>
 				<Button handleClickCreateCard={this.createCard}/>
 			</div>
 		);
@@ -59,4 +63,3 @@ ReactDOM.render(
 	<App url="/" />, 
 	document.getElementById('main')
 );
-

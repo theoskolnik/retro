@@ -1,0 +1,9 @@
+.card {
+	border: 3px solid red;
+  width: 8rem;
+  height: 8rem;
+  margin: 1rem;
+  list-style-type: none;
+}
+
+    
