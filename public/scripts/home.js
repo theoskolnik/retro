@@ -2,11 +2,10 @@ var CardList = React.createClass({
 	renderCards() {
 		if(this.props.data !== 0) {
 			var cards = this.props.data;
-			
 			return (
       <ul>
         {cards.map((card, index) => {
-        	return <Card key={index} content="TEST"/>
+        	return <Card key={index} content={card.description}/>
         })}
       </ul>
     	);
@@ -47,27 +46,53 @@ var Button = React.createClass({
 var App = React.createClass({
 	getInitialState () {
 		return {
-      cards: []
+      loaded: false,
+      cards: null
     };
+	},
+
+	componentDidMount () {
+		$.ajax({
+			url: this.props.baseUrl + "cards",
+			dataType: 'json',
+			type: 'GET',
+			success: function(response) {
+				this.setState({
+					loaded: true, 
+					cards: response.data
+				});
+			}.bind(this),
+			error: function(req, status, err) {
+				console.log("FAILED");
+			}
+		});
 	},
 
 	createCard () {
 		var currentCards = this.state.cards.slice();    
-    currentCards.push(<Card/>);   
-    this.setState({cards:currentCards})
+    currentCards.push(<Card/>);
+    this.setState({cards: currentCards});
 	},
 
 	render () {
-		return (
-			<div>
-				<CardList data={this.state.cards}/>
-				<Button handleClickCreateCard={this.createCard}/>
-			</div>
-		);
+		if(this.state.loaded) {
+			return (
+				<div>
+					<CardList data={this.state.cards}/>
+					<Button handleClickCreateCard={this.createCard}/>
+				</div>
+			);
+		} else {
+			return (
+				<div>
+					<Button handleClickCreateCard={this.createCard}/>
+				</div>
+			);
+		}
 	}
 });
 
 ReactDOM.render(
-	<App url="/" />, 
+	<App baseUrl="/" />, 
 	document.getElementById('main')
 );
