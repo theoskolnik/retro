@@ -26,7 +26,7 @@ var Card = React.createClass({
 	render () {
 		return(
 			<div>
-				<li className="card" key={this.props.index}>{this.props.content}</li>
+				<li className="card" key={this.props.key}>{this.props.content}</li>
 			</div>
 		);
 	}
@@ -69,9 +69,24 @@ var App = React.createClass({
 	},
 
 	createCard () {
-		var currentCards = this.state.cards.slice();    
-    currentCards.push(<Card/>);
-    this.setState({cards: currentCards});
+		var currentCards = this.state.cards.slice();
+		var newCard =  <Card key={currentCards.length + 1} 
+												 description="hard coded description"/>;   
+    currentCards.push(newCard);
+
+
+    $.ajax({
+    	url: this.props.baseUrl + "cards",
+    	type: 'POST',
+    	data: {data: JSON.stringify(newCard)},
+    	success: function(response) {
+    		console.log("SUCCESS!");
+    		this.setState({cards: currentCards});
+    	}.bind(this),
+    	error: function(req, status, err) {
+    		console.log("FAILED!!!");
+    	}
+    });
 	},
 
 	render () {

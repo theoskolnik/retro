@@ -1,7 +1,7 @@
 require 'json'
 require 'sinatra'
 
-cards = [{:description => 'test1'}, {:description => 'test2'}]
+cards = []
 
 get '/' do
   erb :home
@@ -12,5 +12,10 @@ get '/cards' do
 end
 
 post '/cards' do
-	# create card
+	jsonCard = JSON.parse(params[:data])
+	newCard = Hash.new
+	newCard[:id] = jsonCard['key']
+	newCard[:description] = jsonCard['props']['description']
+	cards << newCard
+	'success'
 end		
