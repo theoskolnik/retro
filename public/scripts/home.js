@@ -5,7 +5,7 @@ var CardList = React.createClass({
 			return (
       <ul>
         {cards.map((card, index) => {
-        	return <Card key={index} content={card.description}/>
+        	return <Card key={index} id={card.id} content={card.description}/>
         })}
       </ul>
     	);
@@ -23,10 +23,29 @@ var CardList = React.createClass({
 });
 
 var Card = React.createClass({
+	editDescription () {
+		console.log("editing!");
+		console.log(this);
+
+		$.ajax({
+			url: "/" + "cards/" + this.props.id,
+			type: 'PUT',
+			data: {data: JSON.stringify({description: "new hard coded"})},
+			success: function(response) {
+    		console.log("SUCCESS!");
+    	}.bind(this),
+    	error: function(req, status, err) {
+    		console.log("FAILED!!!");
+    	}
+		})
+
+
+	},
+
 	render () {
 		return(
 			<div>
-				<li className="card" key={this.props.key}>{this.props.content}</li>
+				<li className="card" key={this.props.key} id={this.props.id} onClick={this.editDescription}>{this.props.content}</li>
 			</div>
 		);
 	}
@@ -70,8 +89,7 @@ var App = React.createClass({
 
 	createCard () {
 		var currentCards = this.state.cards.slice();
-		var newCard =  <Card key={currentCards.length + 1} 
-												 description="hard coded description"/>;   
+		var newCard =  <Card description="hard coded description"/>;   
     currentCards.push(newCard);
 
 

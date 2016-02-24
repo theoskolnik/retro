@@ -2,6 +2,7 @@ require 'json'
 require 'sinatra'
 
 cards = []
+index = 0
 
 get '/' do
   erb :home
@@ -14,8 +15,19 @@ end
 post '/cards' do
 	jsonCard = JSON.parse(params[:data])
 	newCard = Hash.new
-	newCard[:id] = jsonCard['key']
+	newCard[:id] = index
 	newCard[:description] = jsonCard['props']['description']
 	cards << newCard
-	'success'
-end		
+	index += 1
+	"success"
+end	
+
+put '/cards/:id' do
+	description = JSON.parse(params[:data])['description']
+	cards.each do |card|
+		if params[:id].to_i == card[:id]
+			card[:description] = description
+		end
+	end
+	"success"
+end	
