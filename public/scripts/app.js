@@ -1,62 +1,6 @@
-var CardList = React.createClass({
-	renderCards() {
-		if(this.props.data !== 0) {
-			var cards = this.props.data;
-			return (
-      <ul>
-        {cards.map((card, index) => {
-        	return <Card key={index} id={card.id} content={card.description}/>
-        })}
-      </ul>
-    	);
-		}
-	},
-	render () {
-		return(
-			<div>
-				{this.renderCards()}
-			</div>
-		);
-	}
-});
-
-var Card = React.createClass({
-	editDescription () {
-		console.log("editing!");
-		console.log(this);
-
-		$.ajax({
-			url: "/" + "cards/" + this.props.id,
-			type: 'PUT',
-			data: {data: JSON.stringify({description: "new hard coded"})},
-			success: function(response) {
-    		console.log("SUCCESS!");
-    	}.bind(this),
-    	error: function(req, status, err) {
-    		console.log("FAILED!!!");
-    	}
-		})
-	},
-
-	render () {
-		return(
-			<div>
-				<li className="card" key={this.props.key} id={this.props.id} onClick={this.editDescription}>{this.props.content}</li>
-			</div>
-		);
-	}
-});
-
-var Button = React.createClass({
-	handleClick () {
-		this.props.handleClickCreateCard();
-	},
-	render () {
-		return (
-			<button type="button" onClick={this.handleClick}>Create Card</button>
-		)
-	}
-});
+let Button = window.Button;
+let Card = window.Card;
+let CardList = window.CardList;
 
 var App = React.createClass({
 	getInitialState () {
