@@ -11,7 +11,6 @@ var CardList = React.createClass({
     	);
 		}
 	},
-
 	render () {
 		return(
 			<div>
@@ -19,7 +18,6 @@ var CardList = React.createClass({
 			</div>
 		);
 	}
-
 });
 
 var Card = React.createClass({
@@ -38,8 +36,6 @@ var Card = React.createClass({
     		console.log("FAILED!!!");
     	}
 		})
-
-
 	},
 
 	render () {
@@ -89,9 +85,7 @@ var App = React.createClass({
 
 	createCard () {
 		var currentCards = this.state.cards.slice();
-		var newCard =  <Card description="hard coded description"/>;   
-    currentCards.push(newCard);
-
+		var newCard = {'description': 'hard coded description'}
 
     $.ajax({
     	url: this.props.baseUrl + "cards",
@@ -99,6 +93,9 @@ var App = React.createClass({
     	data: {data: JSON.stringify(newCard)},
     	success: function(response) {
     		console.log("SUCCESS!");
+    		console.log(response);
+				var newViewCard =  <Card description={response.description} id={response.id}/>;   
+    		currentCards.push(newViewCard);
     		this.setState({cards: currentCards});
     	}.bind(this),
     	error: function(req, status, err) {

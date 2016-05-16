@@ -16,10 +16,10 @@ post '/cards' do
 	jsonCard = JSON.parse(params[:data])
 	newCard = Hash.new
 	newCard[:id] = index
-	newCard[:description] = jsonCard['props']['description']
+	newCard[:description] = jsonCard['description']
 	cards << newCard
 	index += 1
-	"success"
+	return newCard.to_json
 end	
 
 put '/cards/:id' do
