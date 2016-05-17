@@ -22,28 +22,31 @@ var App = React.createClass({
 				});
 			}.bind(this),
 			error: function(req, status, err) {
-				console.log("FAILED");
+				console.log("Failed to load cards.");
 			}
 		});
 	},
 
 	createCard () {
 		var currentCards = this.state.cards.slice();
-		var newCard = {'description': 'hard coded description'}
+		var newCard = {'description': 'empty string'};
 
     $.ajax({
     	url: this.props.baseUrl + "cards",
     	type: 'POST',
     	data: {data: JSON.stringify(newCard)},
     	success: function(response) {
-    		console.log("SUCCESS!");
-    		console.log(response);
-				var newViewCard =  <Card description={response.description} id={response.id}/>;   
+    		var parsedResponse = JSON.parse(response);
+    		console.log("Created new card with id: " + parsedResponse.id + " and description: " + parsedResponse.description);
+				var newViewCard = { 
+					description: parsedResponse.description,
+					id: parsedResponse.id
+				};   
     		currentCards.push(newViewCard);
     		this.setState({cards: currentCards});
     	}.bind(this),
     	error: function(req, status, err) {
-    		console.log("FAILED!!!");
+    		console.log("Failed to create card.");
     	}
     });
 	},

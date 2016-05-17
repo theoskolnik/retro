@@ -1,17 +1,14 @@
 var Card = React.createClass({
 	editDescription () {
-		console.log("editing!");
-		console.log(this);
-
 		$.ajax({
 			url: "/" + "cards/" + this.props.id,
 			type: 'PUT',
-			data: {data: JSON.stringify({description: "new hard coded"})},
+			data: {data: JSON.stringify({description: "new text after edit"})},
 			success: function(response) {
-    		console.log("SUCCESS!");
+    		console.log("Successfully edited card.");
     	}.bind(this),
     	error: function(req, status, err) {
-    		console.log("FAILED!!!");
+    		console.log("Failed to edit card.");
     	}
 		})
 	},
@@ -19,7 +16,12 @@ var Card = React.createClass({
 	render () {
 		return(
 			<div>
-				<li className="card" key={this.props.key} id={this.props.id} onClick={this.editDescription}>{this.props.content}</li>
+				<li className="card" 
+						key={this.props.key} 
+						id={this.props.id} 
+						onClick={this.editDescription}>
+					{this.props.content} with id: {this.props.id}
+				</li>
 			</div>
 		);
 	}
