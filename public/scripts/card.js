@@ -10,7 +10,7 @@ var Card = React.createClass({
 		$.ajax({
 			url: "/" + "cards/" + this.props.id,
 			type: 'PUT',
-			data: {data: JSON.stringify({description: "new text after edit"})},
+			data: JSON.stringify({description: "new text after edit"}),
 			success: function(response) {
 				this.setState({content: JSON.parse(response).content});
     		console.log("Successfully edited card.");

@@ -45,7 +45,7 @@ var App = React.createClass({
     		this.setState({cards: currentCards});
     	}.bind(this),
     	error: function(req, status, err) {
-    		console.log("Failed to create card.");
+    		console.error(this.props.url, status, err.toString());
     	}
     });
 	},

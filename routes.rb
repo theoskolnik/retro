@@ -13,17 +13,16 @@ get '/cards' do
 end
 
 post '/cards' do
-	payload = JSON.parse(request.body.read)
 	newCard = Hash.new
 	newCard[:id] = index
-	newCard[:description] = payload['description']
+	newCard[:description] = JSON.parse(request.body.read)['description']
 	cards << newCard
 	index += 1
 	return newCard.to_json
 end	
 
 put '/cards/:id' do
-	description = JSON.parse(params[:data])['description']
+	description = JSON.parse(request.body.read)['description']
 	cards.each do |card|
 		if params[:id].to_i == card[:id]
 			card[:description] = description
