@@ -2,7 +2,7 @@ require 'json'
 require 'sinatra'
 
 cards = []
-index = 0
+index = 1
 
 get '/' do
   erb :home
@@ -29,5 +29,5 @@ put '/cards/:id' do
 			card[:description] = description
 		end
 	end
-	"success"
+	{content: description}.to_json
 end	
