@@ -5,7 +5,9 @@ var CardList = React.createClass({
 			return (
       <ul>
         {cards.map((card, index) => {
-        	return <Card key={index} id={card.id} content={card.description}/>
+        	return <Card key={index} 
+        							 id={card.id} 
+        							 content={card.description} />
         })}
       </ul>
     	);
@@ -13,7 +15,7 @@ var CardList = React.createClass({
 	},
 	render () {
 		return(
-			<div>
+			<div className="cardList">
 				{this.renderCards()}
 			</div>
 		);

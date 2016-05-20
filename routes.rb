@@ -13,10 +13,10 @@ get '/cards' do
 end
 
 post '/cards' do
-	jsonCard = JSON.parse(params[:data])
+	payload = JSON.parse(request.body.read)
 	newCard = Hash.new
 	newCard[:id] = index
-	newCard[:description] = jsonCard['description']
+	newCard[:description] = payload['description']
 	cards << newCard
 	index += 1
 	return newCard.to_json

@@ -28,7 +28,7 @@ var Card = React.createClass({
 						key={this.props.key} 
 						id={this.props.id} 
 						onClick={this.editDescription}>
-					{this.state.content} with id: {this.props.id}
+						content: {this.state.content}, id: {this.props.id}
 				</li>
 			</div>
 		);

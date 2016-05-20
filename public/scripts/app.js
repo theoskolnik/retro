@@ -28,21 +28,20 @@ var App = React.createClass({
 	},
 
 	createCard () {
-		var currentCards = this.state.cards.slice();
-		var newCard = {'description': 'empty string'};
+		var newCard = {description: ''};
 
     $.ajax({
     	url: this.props.baseUrl + "cards",
     	type: 'POST',
-    	data: {data: JSON.stringify(newCard)},
+    	data: JSON.stringify(newCard),
     	success: function(response) {
     		var parsedResponse = JSON.parse(response);
-    		console.log("Created new card with id: " + parsedResponse.id + " and description: " + parsedResponse.description);
-				var newViewCard = { 
+    		var savedCard = { 
 					description: parsedResponse.description,
 					id: parsedResponse.id
-				};   
-    		currentCards.push(newViewCard);
+				};
+				var currentCards = this.state.cards.slice();
+    		currentCards.push(savedCard);
     		this.setState({cards: currentCards});
     	}.bind(this),
     	error: function(req, status, err) {
