@@ -12,6 +12,7 @@ h2 {
   height: 8rem;
   margin: 1rem;
   list-style-type: none;
+  resize: none;
 }
 
 .cardList {

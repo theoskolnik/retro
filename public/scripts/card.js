@@ -25,7 +25,7 @@ var Card = React.createClass({
 	render () {
 		return(
 			<div>
-				<input className="card" 
+				<textArea className="card" 
 						key={this.props.key}
 						id={this.props.id} 
 						type="text" 
