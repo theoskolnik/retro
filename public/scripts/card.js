@@ -3,14 +3,15 @@ var Card = React.createClass({
 		return {
       content: this.props.content
     };
-
 	},
 
 	editDescription () {
+		var userInput = document.getElementById(this.props.id).value;
+		
 		$.ajax({
 			url: "/" + "cards/" + this.props.id,
 			type: 'PUT',
-			data: JSON.stringify({description: "new text after edit"}),
+			data: JSON.stringify({ description: userInput }),
 			success: function(response) {
 				this.setState({content: JSON.parse(response).content});
     		console.log("Successfully edited card.");
@@ -24,12 +25,12 @@ var Card = React.createClass({
 	render () {
 		return(
 			<div>
-				<li className="card" 
-						key={this.props.key} 
+				<input className="card" 
+						key={this.props.key}
 						id={this.props.id} 
-						onClick={this.editDescription}>
-						content: {this.state.content}, id: {this.props.id}
-				</li>
+						type="text" 
+						defaultValue={this.state.content} 
+						onBlur={this.editDescription}/>
 			</div>
 		);
 	}

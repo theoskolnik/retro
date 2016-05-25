@@ -4,7 +4,10 @@ var Button = React.createClass({
 	},
 	render () {
 		return (
-			<button type="button" onClick={this.handleClick}>Create Card</button>
+			<button type="button" 
+							onClick={this.handleClick}>
+							Create Card
+			</button>
 		)
 	}
 });
