@@ -1,42 +1,31 @@
 var Card = React.createClass({
 	getInitialState() {
 		return {
-      content: this.props.content
+      content: this.props.card.description
     };
 	},
 
-	editCard () {
-		var userInput = document.getElementById(this.props.id).value;
-		
-		$.ajax({
-			url: "/" + "cards/" + this.props.id,
-			type: 'PUT',
-			data: JSON.stringify({ description: userInput }),
-			success: function(response) {
-				this.setState({content: response.data});
-    	}.bind(this),
-    	error: function(req, status, err) {
-    		console.error(this.props.url, status, err.toString());
-    	}
-		})
+	editCard() {
+		this.props.handleEdit(this.props.card.id);
 	},
 
-	deleteCard () {
-		this.props.deleteCard(this.props.id);
+	destroyCard () {
+		console.log("destroy card: " + this.props.card.id);
+		this.props.handleDelete(this.props.card.id);
 	},
 
 	render () {
 		return(
 			<div className="cardBox">
-				<textArea className="card" 
+				<textArea className="cardInput" 
+						type="text"
 						key={this.props.key}
-						id={this.props.id} 
-						type="text" 
+						id={this.props.card.id} 
 						defaultValue={this.state.content} 
-						onBlur={this.editCard}>
-				</textArea>		
+						onBlur={this.editCard}
+				/>		
 				<span className="deleteButton"
-							onClick={this.deleteCard}>
+							onClick={this.destroyCard}>
 						&#9746;
 				</span>
 			</div>

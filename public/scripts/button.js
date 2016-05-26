@@ -1,6 +1,6 @@
 var Button = React.createClass({
 	handleClick () {
-		this.props.handleClickCreateCard();
+		this.props.handleSubmit();
 	},
 	render () {
 		return (

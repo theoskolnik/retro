@@ -1,40 +1,77 @@
 var CardList = React.createClass({
 	getInitialState () {
 		return {
-			cards: this.props.data
+			loaded: false,
+			cards: null
 		}
 	},
 
-	componentWillReceiveProps (newProps) {
-		if (this.props.data !== newProps.data) {
-			this.setState({cards: newProps.data});
-		}
+	componentDidMount () {
+		this.getCards();
 	},
 
-	renderCards() {
-		if(this.state.cards !== 0) {
-			var cards = this.state.cards;
-			return (
-      <ul>
-        {cards.map((card, index) => {
-        	return <Card key={index} 
-        							 id={card.id} 
-        							 content={card.description} 
-        							 deleteCard={this.deleteCard}
-  							 />
-        })}
-      </ul>
-    	);
-		}
+	getCards () {
+		$.ajax({
+			url: this.props.baseUrl + "cards",
+			dataType: 'json',
+			type: 'GET',
+			success: function(response) {
+				this.setState({
+					loaded: true, 
+					cards: response.data
+				});
+			}.bind(this),
+			error: function(req, status, err) {
+				console.log("Failed to load cards.");
+			}
+		});
 	},
 
-	deleteCard (id) {
+	handleSubmit() {
+    $.ajax({
+    	url: this.props.baseUrl + "cards",
+    	type: 'POST',
+    	dataType: 'json',
+    	data: JSON.stringify({description: ''}),
+    	success: function(response) {
+    		var newCard = { 
+					description: response.data.description,
+					id: response.data.id
+				};
+				var currentCards = this.state.cards.slice();
+    		currentCards.push(newCard);
+    		this.setState({cards: currentCards});
+    	}.bind(this),
+    	error: function(req, status, err) {
+    		console.error(this.props.url, status, err.toString());
+    	}
+    });
+	},
+
+	handleEdit(id) {
+		var userInput = document.getElementById(id).value;
+		
+		$.ajax({
+			url: "/" + "cards/" + id,
+			type: 'PUT',
+			data: JSON.stringify({ description: userInput }),
+			success: function(response) {
+				this.setState({ content: response.data });
+    	}.bind(this),
+    	error: function(req, status, err) {
+    		console.error(this.props.url, status, err.toString());
+    	}
+		})
+	},
+
+	handleDelete(id) {
 		$.ajax({
 			url: "/cards/" + id,
 			dataType: 'json',
 			type: 'DELETE',
 			success: function(response) {
-				this.setState({cards: response.data});
+				console.log(response.data);
+				this.setState({ cards: response.data });
 			}.bind(this),
 			error: function(req, status, err) {
 				console.error(this.props.url, status, err.toString());
@@ -42,12 +79,37 @@ var CardList = React.createClass({
 		});
 	},
 
+	renderCards() {
+		if(this.state.cards !== null) {
+			return (
+	      <ul>
+	        {this.state.cards.map((card, index) => {
+	        	return <Card key={index} 
+	        							 card={card} 
+	        							 handleEdit={this.handleEdit} 
+	        							 handleDelete={this.handleDelete}
+	  							 />
+	        })}
+	      </ul>
+    	);
+		}
+	},
+
 	render () {
-		return(
-			<div className="cardList">
-				{this.renderCards()}
-			</div>
-		);
+		if (this.state.loaded) {
+			return (
+				<div className="cardList">
+					{this.renderCards()}
+					<Button handleSubmit={this.handleSubmit}/>
+				</div>
+			);
+		} else {
+			return (
+				<div className="cardList">
+					<Button handleSubmit={this.handleSubmit}/>
+				</div>
+			);
+		}
 	}
 });
 
