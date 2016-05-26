@@ -18,7 +18,7 @@ post '/cards' do
 	newCard[:description] = JSON.parse(request.body.read)['description']
 	cards << newCard
 	index += 1
-	return newCard.to_json
+	{:data => newCard}.to_json
 end	
 
 put '/cards/:id' do
@@ -28,7 +28,7 @@ put '/cards/:id' do
 			card[:description] = description
 		end
 	end
-	{content: description}.to_json
+	{:data => description}.to_json
 end	
 
 delete '/cards/:id' do 
@@ -37,6 +37,5 @@ delete '/cards/:id' do
 			cards.delete(card)
 		end
 	end
-	p cards.to_json
 	{:data => cards}.to_json
 end

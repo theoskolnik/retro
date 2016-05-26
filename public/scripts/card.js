@@ -13,11 +13,10 @@ var Card = React.createClass({
 			type: 'PUT',
 			data: JSON.stringify({ description: userInput }),
 			success: function(response) {
-				this.setState({content: JSON.parse(response).content});
-    		console.log("Successfully edited card.");
+				this.setState({content: response.data});
     	}.bind(this),
     	error: function(req, status, err) {
-    		console.log("Failed to edit card.");
+    		console.error(this.props.url, status, err.toString());
     	}
 		})
 	},

@@ -36,20 +36,18 @@ var App = React.createClass({
 	},
 
 	createCard () {
-		var newCard = {description: ''};
-
     $.ajax({
     	url: this.props.baseUrl + "cards",
     	type: 'POST',
-    	data: JSON.stringify(newCard),
+    	dataType: 'json',
+    	data: JSON.stringify({description: ''}),
     	success: function(response) {
-    		var parsedResponse = JSON.parse(response);
-    		var savedCard = { 
-					description: parsedResponse.description,
-					id: parsedResponse.id
+    		var newCard = { 
+					description: response.data.description,
+					id: response.data.id
 				};
 				var currentCards = this.state.cards.slice();
-    		currentCards.push(savedCard);
+    		currentCards.push(newCard);
     		this.setState({cards: currentCards});
     	}.bind(this),
     	error: function(req, status, err) {
