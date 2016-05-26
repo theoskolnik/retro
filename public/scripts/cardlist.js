@@ -1,7 +1,19 @@
 var CardList = React.createClass({
+	getInitialState () {
+		return {
+			cards: this.props.data
+		}
+	},
+
+	componentWillReceiveProps (newProps) {
+		if (this.props.data !== newProps.data) {
+			this.setState({cards: newProps.data});
+		}
+	},
+
 	renderCards() {
-		if(this.props.data !== 0) {
-			var cards = this.props.data;
+		if(this.state.cards !== 0) {
+			var cards = this.state.cards;
 			return (
       <ul>
         {cards.map((card, index) => {

@@ -14,10 +14,6 @@ var App = React.createClass({
 		this.getCards();
 	},
 
-	componentDidUpdate () {
-		this.getCards()
-	},
-
 	getCards () {
 		$.ajax({
 			url: this.props.baseUrl + "cards",
