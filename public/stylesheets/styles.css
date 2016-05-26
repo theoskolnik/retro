@@ -19,4 +19,15 @@ h2 {
 	border: 3px solid black;
 }
 
+.cardBox {
+	position: relative;
+}
+
+.deleteButton {
+	position: absolute;
+  top: 1rem;
+  left: 7.5rem;
+  font-size: 2rem;
+  cursor:pointer;
+}
     

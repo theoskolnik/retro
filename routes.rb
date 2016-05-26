@@ -30,3 +30,13 @@ put '/cards/:id' do
 	end
 	{content: description}.to_json
 end	
+
+delete '/cards/:id' do 
+	cards.each do |card|
+		if params[:id].to_i == card[:id]
+			cards.delete(card)
+		end
+	end
+	p cards.to_json
+	{:data => cards}.to_json
+end

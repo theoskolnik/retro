@@ -11,6 +11,14 @@ var App = React.createClass({
 	},
 
 	componentDidMount () {
+		this.getCards();
+	},
+
+	componentDidUpdate () {
+		this.getCards()
+	},
+
+	getCards () {
 		$.ajax({
 			url: this.props.baseUrl + "cards",
 			dataType: 'json',
@@ -51,7 +59,7 @@ var App = React.createClass({
 	},
 
 	render () {
-		if(this.state.loaded) {
+		if (this.state.loaded) {
 			return (
 				<div>
 					<CardList data={this.state.cards}/>

@@ -5,7 +5,7 @@ var Card = React.createClass({
     };
 	},
 
-	editDescription () {
+	editCard () {
 		var userInput = document.getElementById(this.props.id).value;
 		
 		$.ajax({
@@ -22,15 +22,24 @@ var Card = React.createClass({
 		})
 	},
 
+	deleteCard () {
+		this.props.deleteCard(this.props.id);
+	},
+
 	render () {
 		return(
-			<div>
+			<div className="cardBox">
 				<textArea className="card" 
 						key={this.props.key}
 						id={this.props.id} 
 						type="text" 
 						defaultValue={this.state.content} 
-						onBlur={this.editDescription}/>
+						onBlur={this.editCard}>
+				</textArea>		
+				<span className="deleteButton"
+							onClick={this.deleteCard}>
+						&#9746;
+				</span>
 			</div>
 		);
 	}
