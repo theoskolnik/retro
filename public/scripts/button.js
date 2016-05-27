@@ -1,8 +1,8 @@
 var Button = React.createClass({
-	handleClick () {
+	handleClick() {
 		this.props.handleSubmit();
 	},
-	render () {
+	render() {
 		return (
 			<button type="button" 
 							onClick={this.handleClick}>

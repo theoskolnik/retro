@@ -8,13 +8,12 @@ var Card = React.createClass({
 	editCard() {
 		this.props.handleEdit(this.props.card.id);
 	},
-
-	destroyCard () {
+	destroyCard() {
 		console.log("destroy card: " + this.props.card.id);
 		this.props.handleDelete(this.props.card.id);
 	},
 
-	render () {
+	render() {
 		return(
 			<div className="cardBox">
 				<textArea className="cardInput" 

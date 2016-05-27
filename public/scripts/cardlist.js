@@ -1,16 +1,16 @@
 var CardList = React.createClass({
-	getInitialState () {
+	getInitialState() {
 		return {
 			loaded: false,
 			cards: null
 		}
 	},
 
-	componentDidMount () {
+	componentDidMount() {
 		this.getCards();
 	},
 
-	getCards () {
+	getCards() {
 		$.ajax({
 			url: this.props.baseUrl + "cards",
 			dataType: 'json',
@@ -70,7 +70,6 @@ var CardList = React.createClass({
 			dataType: 'json',
 			type: 'DELETE',
 			success: function(response) {
-				console.log(response.data);
 				this.setState({ cards: response.data });
 			}.bind(this),
 			error: function(req, status, err) {
@@ -83,19 +82,18 @@ var CardList = React.createClass({
 		if(this.state.cards !== null) {
 			return (
 	      <ul>
-	        {this.state.cards.map((card, index) => {
-	        	return <Card key={index} 
-	        							 card={card} 
-	        							 handleEdit={this.handleEdit} 
-	        							 handleDelete={this.handleDelete}
-	  							 />
-	        })}
+	      	{this.state.cards.map(card => {
+	      		return <Card key={card.id} 
+	      			card={card} 
+	      			handleEdit={this.handleEdit} 
+	      			handleDelete={this.handleDelete} />
+	      	})}
 	      </ul>
-    	);
+    	)
 		}
 	},
 
-	render () {
+	render() {
 		if (this.state.loaded) {
 			return (
 				<div className="cardList">
