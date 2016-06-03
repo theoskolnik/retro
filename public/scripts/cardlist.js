@@ -2,7 +2,8 @@ var CardList = React.createClass({
 	getInitialState() {
 		return {
 			loaded: false,
-			cards: null
+			cards: [], 
+			title: this.props.cardList.title
 		}
 	},
 
@@ -18,7 +19,8 @@ var CardList = React.createClass({
 			success: function(response) {
 				this.setState({
 					loaded: true, 
-					cards: response.data
+					cards: response.data,
+					title: "hi"
 				});
 			}.bind(this),
 			error: function(req, status, err) {
@@ -79,7 +81,7 @@ var CardList = React.createClass({
 	},
 
 	renderCards() {
-		if(this.state.cards !== null) {
+		if(this.state.cards.size !== 0) {
 			return (
 	      <ul>
 	      	{this.state.cards.map(card => {
@@ -97,6 +99,7 @@ var CardList = React.createClass({
 		if (this.state.loaded) {
 			return (
 				<div className="cardList">
+					{this.props.cardList.title}
 					{this.renderCards()}
 					<Button handleSubmit={this.handleSubmit}/>
 				</div>

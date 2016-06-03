@@ -9,7 +9,6 @@ var Card = React.createClass({
 		this.props.handleEdit(this.props.card.id);
 	},
 	destroyCard() {
-		console.log("destroy card: " + this.props.card.id);
 		this.props.handleDelete(this.props.card.id);
 	},
 
