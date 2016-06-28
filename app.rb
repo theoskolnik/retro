@@ -1,5 +1,7 @@
 require 'json'
 require 'sinatra'
+require 'sinatra/activerecord'
+require './config/environments' #database configuration
 
 cards = []
 cardIndex = 1
