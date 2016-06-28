@@ -2,6 +2,7 @@ require 'json'
 require 'sinatra'
 require 'sinatra/activerecord'
 require './config/environments' #database configuration
+require './models/card'
 
 cards = []
 cardIndex = 1
@@ -13,7 +14,8 @@ get '/' do
 end
 
 get '/cards' do
-	return {:data => cards}.to_json
+	@cards = Card.all
+	return {:data => @cards}.to_json
 end
 
 post '/lists' do
@@ -24,16 +26,13 @@ post '/lists' do
 	cardLists << newList
 	listIndex += 1
 	return {:data => newList}.to_json
-end
+end	
 
 post '/cards' do
-	newCard = Hash.new
-	newCard[:id] = cardIndex
-	newCard[:description] = JSON.parse(request.body.read)['description']
-	cards << newCard
-	cardIndex += 1
-	{:data => newCard}.to_json
-end	
+	@card = Card.new
+	@card.save
+	{:data => @card}.to_json
+end
 
 put '/cards/:id' do
 	description = JSON.parse(request.body.read)['description']
