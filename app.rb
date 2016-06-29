@@ -18,8 +18,8 @@ get '/' do
   erb :home
 end
 
-get '/cards' do
-	@cards = Card.all
+get '/lists/:id/cards' do
+	@cards = Card.where(:list_id => params[:id])
 	return {:data => @cards}.to_json
 end
 
@@ -51,10 +51,9 @@ put '/cards/:id' do
 	{:data => description}.to_json
 end
 
-delete '/lists/:list_id/cards/:card_id' do
-	@card = Card.find_by(:list_id => params[:list_id], :id => params[:card_id])
+delete '/cards/:id' do
+	@card = Card.find_by(:id => params[:id])
 	@card.destroy
-	{:data => Card.all}.to_json
 end
 
 

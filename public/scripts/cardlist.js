@@ -13,7 +13,7 @@ var CardList = React.createClass({
 
 	getCards() {
 		$.ajax({
-			url: this.props.baseUrl + "cards",
+			url: "/lists/" + this.props.cardList.id + "/cards",
 			dataType: 'json',
 			type: 'GET',
 			success: function(response) {
@@ -22,6 +22,7 @@ var CardList = React.createClass({
 					cards: response.data,
 					title: "hi"
 				});
+				console.log("these are the current cards: " + this.state.cards);
 			}.bind(this),
 			error: function(req, status, err) {
 				console.log("Failed to load cards.");
@@ -54,7 +55,7 @@ var CardList = React.createClass({
 		var userInput = document.getElementById(id).value;
 		
 		$.ajax({
-			url: "/" + "cards/" + id,
+			url: "/cards/" + id,
 			type: 'PUT',
 			data: JSON.stringify({ description: userInput }),
 			success: function(response) {
@@ -66,13 +67,18 @@ var CardList = React.createClass({
 		})
 	},
 
-	handleDelete(id) {
+	handleDelete(cardId) {
 		$.ajax({
-			url: "/lists/" + this.props.cardList.id + "/cards/" + id,
-			dataType: 'json',
+			url: "/cards/" + cardId,
 			type: 'DELETE',
 			success: function(response) {
-				this.setState({ cards: response.data });
+				var currentCards = this.state.cards;
+				for (var i = 0; i < currentCards.length; i++) {
+					if(currentCards[i].id == cardId) {
+						currentCards.splice(i, 1);
+					}
+				}
+				this.setState({ cards: currentCards })
 			}.bind(this),
 			error: function(req, status, err) {
 				console.error(this.props.url, status, err.toString());
