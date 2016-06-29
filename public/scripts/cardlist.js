@@ -31,7 +31,7 @@ var CardList = React.createClass({
 
 	handleSubmit() {
     $.ajax({
-    	url: this.props.baseUrl + "cards",
+    	url: this.props.baseUrl + "lists/" + this.props.cardList.id + "/cards",
     	type: 'POST',
     	dataType: 'json',
     	data: JSON.stringify({description: ''}),
@@ -68,7 +68,7 @@ var CardList = React.createClass({
 
 	handleDelete(id) {
 		$.ajax({
-			url: "/cards/" + id,
+			url: "/lists/" + this.props.cardList.id + "/cards/" + id,
 			dataType: 'json',
 			type: 'DELETE',
 			success: function(response) {

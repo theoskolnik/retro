@@ -2,13 +2,34 @@ let Button = window.Button;
 let Card = window.Card;
 let CardList = window.CardList;
 
-var App = React.createClass({
+var Retro = React.createClass({
 	getInitialState() {
 		return {
+			loaded: false,
 			cardLists: []
 		}
 	},
 
+	componentDidMount() {
+		this.getCardLists();
+	},
+
+	getCardLists() {
+		$.ajax({
+			url: this.props.baseUrl + "lists",
+			dataType: 'json',
+			type: 'GET',
+			success: function(response) {
+				this.setState({
+					loaded: true, 
+					cardLists: response.data,
+				});
+			}.bind(this),
+			error: function(req, status, err) {
+				console.log("Failed to load cards.");
+			}
+		});
+	},
 
 	handleSubmit() {
 		$.ajax({
@@ -47,17 +68,24 @@ var App = React.createClass({
 	},
 
 	render() {
-		return (
-			<div className="cardListsContainer">
-				<button onClick={this.handleSubmit}>Create List</button>
-				{this.renderCardLists()}
-			</div>
-		);
+		if(this.state.loaded) {
+			return (
+				<div className="cardListsContainer">
+					<button onClick={this.handleSubmit}>Create List</button>
+					{this.renderCardLists()}
+				</div>
+			);
+		} else {
+			return (
+				<div className="cardListsContainer">
+					<button onClick={this.handleSubmit}>Create List</button>
+				</div>
+			);
+		}
 	}
 });
 
-
 ReactDOM.render(
-	<App baseUrl="/" />, 
+	<Retro baseUrl="/" />, 
 	document.getElementById('main')
 );
