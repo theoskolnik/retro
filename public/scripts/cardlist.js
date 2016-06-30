@@ -56,10 +56,11 @@ var CardList = React.createClass({
 		
 		$.ajax({
 			url: "/cards/" + id,
+			dataType: 'json',
 			type: 'PUT',
 			data: JSON.stringify({ description: userInput }),
 			success: function(response) {
-				this.setState({ content: response.data });
+				this.setState({ content: response.data.content });
     	}.bind(this),
     	error: function(req, status, err) {
     		console.error(this.props.url, status, err.toString());

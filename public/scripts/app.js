@@ -13,7 +13,6 @@ var App = React.createClass({
 		return (
 			<Retro />
 		);
-
 	},
 
 	handleSubmit() {
@@ -34,6 +33,7 @@ var App = React.createClass({
     	}
     });
 	},
+	
 	render() {
 		if(this.state.loaded) {
 			var baseUrl = "/retros/" + this.state.retro.id;

@@ -48,13 +48,10 @@ post '/lists/:id/cards' do
 end
 
 put '/cards/:id' do
-	description = JSON.parse(request.body.read)['description']
-	cards.each do |card|
-		if params[:id].to_i == card[:id]
-			card[:description] = description
-		end
-	end
-	{:data => description}.to_json
+	@card = Card.find_by(:id => params[:id])
+	@card[:content] = JSON.parse(request.body.read)['description']
+	@card.save
+	{:data => @card}.to_json
 end
 
 delete '/cards/:id' do
