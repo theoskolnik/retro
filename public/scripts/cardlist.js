@@ -107,13 +107,13 @@ var CardList = React.createClass({
 				<div className="cardList">
 					{this.props.cardList.title}
 					{this.renderCards()}
-					<Button handleSubmit={this.handleSubmit}/>
+					<Button handleSubmit={this.handleSubmit} />
 				</div>
 			);
 		} else {
 			return (
 				<div className="cardList">
-					<Button handleSubmit={this.handleSubmit}/>
+					<Button handleSubmit={this.handleSubmit} />
 				</div>
 			);
 		}

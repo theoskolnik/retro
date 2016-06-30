@@ -1,7 +1,3 @@
-let Button = window.Button;
-let Card = window.Card;
-let CardList = window.CardList;
-
 var Retro = React.createClass({
 	getInitialState() {
 		return {
@@ -11,12 +7,14 @@ var Retro = React.createClass({
 	},
 
 	componentDidMount() {
-		this.getCardLists();
+		if(this.state.cardLists.size !== 0) {
+			this.getCardLists();
+		}
 	},
 
 	getCardLists() {
 		$.ajax({
-			url: this.props.baseUrl + "lists",
+			url: this.props.baseUrl + "/lists",
 			dataType: 'json',
 			type: 'GET',
 			success: function(response) {
@@ -33,7 +31,7 @@ var Retro = React.createClass({
 
 	handleSubmit() {
 		$.ajax({
-    	url: this.props.baseUrl + "lists",
+    	url: this.props.baseUrl + "/lists",
     	type: 'POST',
     	dataType: 'json',
     	data: JSON.stringify({title: 'CardList title'}),
@@ -85,7 +83,4 @@ var Retro = React.createClass({
 	}
 });
 
-ReactDOM.render(
-	<Retro baseUrl="/" />, 
-	document.getElementById('main')
-);
+window.Retro = Retro;

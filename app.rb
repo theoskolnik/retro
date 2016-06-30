@@ -4,6 +4,7 @@ require 'sinatra/activerecord'
 require './config/environments' #database configuration
 require './models/card'
 require './models/list'
+require './models/retro'
 
 cards = []
 cardIndex = 1
@@ -23,13 +24,18 @@ get '/lists/:id/cards' do
 	return {:data => @cards}.to_json
 end
 
-get '/lists' do
-	@lists = List.all
+get '/retros/:id/lists' do
+	@lists = List.where(:retro_id => params[:id])
 	return {:data => @lists}.to_json
 end
 
-post '/lists' do
-	@list = List.create!(:title => JSON.parse(request.body.read)['title'])
+post '/retros' do
+	@retro = Retro.create!(:title => JSON.parse(request.body.read)['title'])
+	return {:data => @retro}.to_json
+end
+
+post '/retros/:id/lists' do
+	@list = List.create!(:title => JSON.parse(request.body.read)['title'], :retro_id => params[:id])
 	return {:data => @list}.to_json
 end	
 

@@ -30,8 +30,9 @@ ActiveRecord::Schema.define(version: 20160629135804) do
 
   add_index "lists", ["retro_id"], name: "index_lists_on_retro_id", using: :btree
 
-  create_table "retro", force: :cascade do |t|
+  create_table "retros", force: :cascade do |t|
     t.string "title"
+    t.string "uriHash"
   end
 
 end
