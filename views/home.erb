@@ -18,6 +18,10 @@
 	<body>
 		<h2>Retro Board</h2>
 		<div id="main"></div>
-		
+		<% if @retro %>
+			<script>
+				window.retro_id = <%= @retro.id %>;
+			</script>
+		<% end %>
 	</body>
 </html>

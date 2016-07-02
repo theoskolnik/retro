@@ -8,6 +8,32 @@ var App = React.createClass({
 		}
 	},
 
+	componentDidMount(){
+		if (this.props.retro_id !== undefined) {
+			$.ajax({
+				url: "/retros/" + this.props.retro_id,
+				dataType: 'json',
+				type: 'GET',
+				success: function(response) {
+					console.log("This is the response" + response);
+					this.setState({
+						loaded: true, 
+						retro: response.data
+					});
+				}.bind(this),
+				error: function(req, status, err) {
+					console.log("Failed to load retro.");
+				}
+			});
+		} else {
+			console.log("No retro id was passed");
+		}
+
+		// if this.props.retro.id exists
+			// get retro
+			// set state
+	},
+
 	createRetroLink() {
 		this.handleSubmit();
 		return (
@@ -26,6 +52,7 @@ var App = React.createClass({
 					title: response.data.title,
 					id: response.data.id
 				};
+				window.location = "/" + retro.id;
 				this.setState({retro: retro, loaded: true});
     	}.bind(this),
     	error: function(req, status, err) {
@@ -53,6 +80,6 @@ var App = React.createClass({
 });
 
 ReactDOM.render(
-	<App baseUrl="/" />,
+	<App baseUrl="/" retro_id={window.retro_id} />,
 	document.getElementById('main')
 );
