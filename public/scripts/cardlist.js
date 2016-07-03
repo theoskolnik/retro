@@ -87,6 +87,10 @@ var CardList = React.createClass({
 		});
 	},
 
+	editListTitle() {
+		this.props.handleEdit(this.props.cardList.id)
+	},
+
 	renderCards() {
 		if(this.state.cards.size !== 0) {
 			return (
@@ -106,7 +110,13 @@ var CardList = React.createClass({
 		if (this.state.loaded) {
 			return (
 				<div className="cardList">
-					{this.props.cardList.title}
+					<textArea className="listTitleInput"
+						type="text"
+						id={this.props.cardList.id}
+						key={this.props.cardList.id}
+						defaultValue={this.props.cardList.title}
+						onBlur={this.editListTitle} 
+					/>
 					{this.renderCards()}
 					<Button handleSubmit={this.handleSubmit} />
 				</div>

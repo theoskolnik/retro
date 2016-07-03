@@ -29,12 +29,30 @@ var Retro = React.createClass({
 		});
 	},
 
+	handleEdit(id) {
+		console.log("id: " + id);
+		var userInput = document.getElementById(id).value;
+		
+		$.ajax({
+			url: "/lists/" + id,
+			dataType: 'json',
+			type: 'PUT',
+			data: JSON.stringify({ title: userInput }),
+			success: function(response) {
+				this.setState({ title: response.data.title });
+    	}.bind(this),
+    	error: function(req, status, err) {
+    		console.error(this.props.url, status, err.toString());
+    	}
+		})
+	},
+
 	handleSubmit() {
 		$.ajax({
     	url: this.props.baseUrl + "/lists",
     	type: 'POST',
     	dataType: 'json',
-    	data: JSON.stringify({title: 'CardList title'}),
+    	data: JSON.stringify({title: 'Click to set title'}),
     	success: function(response) {
     		var newCardList = { 
 					title: response.data.title,
@@ -57,6 +75,7 @@ var Retro = React.createClass({
 					{this.state.cardLists.map(cardList => {
 						return <CardList key={cardList.id}
 							cardList={cardList}
+							handleEdit={this.handleEdit}
 							baseUrl="/" />
 
 					})}

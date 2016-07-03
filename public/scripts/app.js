@@ -8,6 +8,28 @@ var App = React.createClass({
 		}
 	},
 
+	componentDidMount(){
+		if (this.props.retro_id !== undefined) {
+			$.ajax({
+				url: "/retros/" + this.props.retro_id,
+				dataType: 'json',
+				type: 'GET',
+				success: function(response) {
+					console.log("This is the response" + response);
+					this.setState({
+						loaded: true, 
+						retro: response.data
+					});
+				}.bind(this),
+				error: function(req, status, err) {
+					console.log("Failed to load retro.");
+				}
+			});
+		} else {
+			console.log("No retro id was passed");
+		}
+	},
+
 	createRetroLink() {
 		this.handleSubmit();
 		return (

@@ -54,6 +54,13 @@ put '/cards/:id' do
 	{:data => @card}.to_json
 end
 
+put '/lists/:id' do
+	@list = List.find(params[:id])
+	@list[:title] = JSON.parse(request.body.read)['title']
+	@list.save
+	{:data => @list}.to_json
+end
+
 delete '/cards/:id' do
 	@card = Card.find_by(:id => params[:id])
 	@card.destroy
