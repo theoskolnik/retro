@@ -15,7 +15,6 @@ var App = React.createClass({
 				dataType: 'json',
 				type: 'GET',
 				success: function(response) {
-					console.log("This is the response" + response);
 					this.setState({
 						loaded: true, 
 						retro: response.data
@@ -25,8 +24,6 @@ var App = React.createClass({
 					console.log("Failed to load retro.");
 				}
 			});
-		} else {
-			console.log("No retro id was passed");
 		}
 	},
 

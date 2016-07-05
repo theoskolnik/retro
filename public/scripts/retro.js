@@ -2,17 +2,17 @@ var Retro = React.createClass({
 	getInitialState() {
 		return {
 			loaded: false,
-			cardLists: []
+			lists: []
 		}
 	},
 
 	componentDidMount() {
-		if(this.state.cardLists.size !== 0) {
-			this.getCardLists();
+		if(this.state.lists.size !== 0) {
+			this.getLists();
 		}
 	},
 
-	getCardLists() {
+	getLists() {
 		$.ajax({
 			url: this.props.baseUrl + "/lists",
 			dataType: 'json',
@@ -20,17 +20,16 @@ var Retro = React.createClass({
 			success: function(response) {
 				this.setState({
 					loaded: true, 
-					cardLists: response.data,
+					lists: response.data,
 				});
 			}.bind(this),
 			error: function(req, status, err) {
-				console.log("Failed to load cards.");
+				console.log("Failed to load lists.");
 			}
 		});
 	},
 
 	handleEdit(id) {
-		console.log("id: " + id);
 		var userInput = document.getElementById(id).value;
 		
 		$.ajax({
@@ -54,13 +53,13 @@ var Retro = React.createClass({
     	dataType: 'json',
     	data: JSON.stringify({title: 'Click to set title'}),
     	success: function(response) {
-    		var newCardList = { 
+    		var newList = { 
 					title: response.data.title,
 					id: response.data.id
 				};
-				var currentCardLists = this.state.cardLists.slice();
-    		currentCardLists.push(newCardList);
-    		this.setState({cardLists: currentCardLists});
+				var currentLists = this.state.lists.slice();
+    		currentLists.push(newList);
+    		this.setState({lists: currentLists});
     	}.bind(this),
     	error: function(req, status, err) {
     		console.error(this.props.url, status, err.toString());
@@ -68,13 +67,13 @@ var Retro = React.createClass({
     });
 	},
 
-	renderCardLists() {
-		if(this.state.cardLists.size !== 0) {
+	renderLists() {
+		if(this.state.lists.size !== 0) {
 			return (
 				<ul>
-					{this.state.cardLists.map(cardList => {
-						return <CardList key={cardList.id}
-							cardList={cardList}
+					{this.state.lists.map(list => {
+						return <List key={list.id}
+							list={list}
 							handleEdit={this.handleEdit}
 							baseUrl="/" />
 
@@ -87,9 +86,9 @@ var Retro = React.createClass({
 	render() {
 		if(this.state.loaded) {
 			return (
-				<div className="cardListsContainer">
+				<div className="listsContainer">
 					<button onClick={this.handleSubmit}>Create List</button>
-					{this.renderCardLists()}
+					{this.renderLists()}
 				</div>
 			);
 		} else {

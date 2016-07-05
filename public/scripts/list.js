@@ -1,9 +1,9 @@
-var CardList = React.createClass({
+var List = React.createClass({
 	getInitialState() {
 		return {
 			loaded: false,
 			cards: [], 
-			title: this.props.cardList.title
+			title: this.props.list.title
 		}
 	},
 
@@ -13,7 +13,7 @@ var CardList = React.createClass({
 
 	getCards() {
 		$.ajax({
-			url: "/lists/" + this.props.cardList.id + "/cards",
+			url: "/lists/" + this.props.list.id + "/cards",
 			dataType: 'json',
 			type: 'GET',
 			success: function(response) {
@@ -22,7 +22,6 @@ var CardList = React.createClass({
 					cards: response.data,
 					title: "hi"
 				});
-				console.log("these are the current cards: " + this.state.cards);
 			}.bind(this),
 			error: function(req, status, err) {
 				console.log("Failed to load cards.");
@@ -32,7 +31,7 @@ var CardList = React.createClass({
 
 	handleSubmit() {
     $.ajax({
-    	url: this.props.baseUrl + "lists/" + this.props.cardList.id + "/cards",
+    	url: this.props.baseUrl + "lists/" + this.props.list.id + "/cards",
     	type: 'POST',
     	dataType: 'json',
     	data: JSON.stringify({description: ''}),
@@ -88,7 +87,7 @@ var CardList = React.createClass({
 	},
 
 	editListTitle() {
-		this.props.handleEdit(this.props.cardList.id)
+		this.props.handleEdit(this.props.list.id)
 	},
 
 	renderCards() {
@@ -109,12 +108,12 @@ var CardList = React.createClass({
 	render() {
 		if (this.state.loaded) {
 			return (
-				<div className="cardList">
+				<div className="list">
 					<textArea className="listTitleInput"
 						type="text"
-						id={this.props.cardList.id}
-						key={this.props.cardList.id}
-						defaultValue={this.props.cardList.title}
+						id={this.props.list.id}
+						key={this.props.list.id}
+						defaultValue={this.props.list.title}
 						onBlur={this.editListTitle} 
 					/>
 					{this.renderCards()}
@@ -123,7 +122,7 @@ var CardList = React.createClass({
 			);
 		} else {
 			return (
-				<div className="cardList">
+				<div className="list">
 					<Button handleSubmit={this.handleSubmit} />
 				</div>
 			);
@@ -131,4 +130,4 @@ var CardList = React.createClass({
 	}
 });
 
-window.CardList = CardList;
+window.List = List;
