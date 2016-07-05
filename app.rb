@@ -6,17 +6,22 @@ require './models/card'
 require './models/list'
 require './models/retro'
 
-cards = []
-cardIndex = 1
-listIndex = 1
-cardLists = []
-
 after do
     ActiveRecord::Base.clear_active_connections!
 end
 
 get '/' do
   erb :home
+end
+
+get '/:id' do
+	@retro = Retro.find(params[:id])
+  erb :home
+end
+
+get '/retros/:id' do
+	@retro = Retro.find(params[:id])
+	{:data => @retro}.to_json
 end
 
 get '/lists/:id/cards' do

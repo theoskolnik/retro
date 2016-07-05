@@ -1,7 +1,7 @@
 var Card = React.createClass({
 	getInitialState() {
 		return {
-      content: this.props.card.description
+      content: this.props.card.content
     };
 	},
 

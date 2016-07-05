@@ -48,6 +48,7 @@ var App = React.createClass({
 					title: response.data.title,
 					id: response.data.id
 				};
+				window.location = "/" + retro.id;
 				this.setState({retro: retro, loaded: true});
     	}.bind(this),
     	error: function(req, status, err) {
@@ -75,6 +76,6 @@ var App = React.createClass({
 });
 
 ReactDOM.render(
-	<App baseUrl="/" />,
+	<App baseUrl="/" retro_id={window.retro_id} />,
 	document.getElementById('main')
 );
